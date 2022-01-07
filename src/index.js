@@ -39,10 +39,10 @@ async function handleLoad(event) {
 
   const getLocalQuestion = () => chrome.storage.sync.get(['title_slug']).then(result => {
     if(!('title_slug' in result)) {
-      return generateNewQuestion(lcData,).title_slug;
+      return generateNewQuestion(lcData);
     }
-    return result.title_slug;
-  });
+    return new Promise({"stat": {"question__title_slug": result.title_slug}});
+  }).then(x => x.stat.question__title_slug);
 
   const [result, _, localQuestionStatus] = await Promise.all([
     getLocalQuestion(),
