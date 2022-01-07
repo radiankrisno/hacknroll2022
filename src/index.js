@@ -2,6 +2,7 @@ import { getStatus, getQuestion, getQuestionStatus } from "./utils.js"
 
 const login = document.getElementById("login");
 const dashboard = document.getElementById('dashboard')
+const doQuestion = document.getElementById('doQuestion')
 const questionLink = document.getElementById('questionLink')
 const questionFinished = document.getElementById('questionFinished')
 
@@ -51,8 +52,8 @@ async function handleLoad(event) {
     questionLink.href = 'https://leetcode.com/problems/' + result.title_slug
 
     if (question[0].status === 'ac' || temp === 'skipped') {
-      questionLink.hidden = true
-      questionFinished.hidden = false
+      doQuestion.style.display = "none";
+      questionFinished.style.display = "flex";
     }
   }
 }
