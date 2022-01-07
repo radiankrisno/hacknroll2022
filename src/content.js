@@ -1,18 +1,20 @@
+function resetPage() {
+  test();
+  document.documentElement.innerHTML = 'Domain is blocked';
+  document.documentElement.scrollTop = 0;
+}
+
 function blockPartial(text){
   const current = window.location.href;
   if(current === text){
-    document.documentElement.innerHTML = '';
-    document.documentElement.innerHTML = 'Domain is blocked';
-    document.documentElement.scrollTop = 0;
+    resetPage();
   }
 }
 
 function blockEntire(text){
   const current = window.location.href;
   if(current.startsWith(text)){
-    document.documentElement.innerHTML = '';
-    document.documentElement.innerHTML = 'Domain is blocked';
-    document.documentElement.scrollTop = 0;
+    resetPage();
   }
 }
 
@@ -22,7 +24,7 @@ async function getQuestionStatus() {
   return result.question_status
 }
 
-async function blockDomains() {
+export async function main() {
   const result = await chrome.storage.sync.get(['blockedDomains'])
   if (!('blockedDomains' in result)) {
     await chrome.storage.sync.set({'blockedDomains': []})
@@ -39,5 +41,3 @@ async function blockDomains() {
     blockEntire(blockedDomain)
   }
 }
-
-blockDomains()
