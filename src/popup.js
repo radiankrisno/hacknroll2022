@@ -41,8 +41,6 @@ function handleClickOption(event) {
   event.preventDefault();
 
   const extensionId = chrome.runtime.id
-
-  const url = `extension://${extensionId}/options.html`
-
+  const url = (navigator.userAgent.includes("edg") ? `` : `chrome-`) + `extension://${extensionId}/options.html`
   chrome.tabs.create({url});
 }
