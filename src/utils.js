@@ -16,7 +16,7 @@ export async function getQuestion(questions) {
     const questionNumber = Math.floor(Math.random() * numOfQuestions)
     const question = questions[questionNumber]
   
-    await chrome.storage.sync.set({'title_slug': question.stat.question__title_slug, 'question_status': question.status})
+    await chrome.storage.sync.set({'title_slug': question.stat.question__title_slug, 'question_status': question.status, 'last_updated': (new Date()).toJSON()})
   }
   
 
