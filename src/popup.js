@@ -6,9 +6,11 @@ const skipLoader = document.getElementById('skipLoader')
 const generate = document.getElementById('generate')
 const generateText = document.getElementById('generateText')
 const generateLoader = document.getElementById('generateLoader')
+const option = document.getElementById('option')
 
 skip.addEventListener('click', handleClickSkip)
 generate.addEventListener('click', handleClickGenerate)
+option.addEventListener('click', handleClickOption)
 
 async function handleClickSkip(event) {
   event.preventDefault();
@@ -33,4 +35,14 @@ async function handleClickGenerate(event) {
 
   generateText.hidden = false
   generateLoader.hidden = true
+}
+
+function handleClickOption(event) {
+  event.preventDefault();
+
+  const extensionId = chrome.runtime.id
+
+  const url = `extension://${extensionId}/options.html`
+
+  chrome.tabs.create({url});
 }
