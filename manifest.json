@@ -1,0 +1,21 @@
+{
+  "name": "Code to Win",
+  "description": "Become a LeetCode Gym Rat",
+  "manifest_version": 3,
+  "version": "1.0",
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": ["<all_urls>"],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "content_scripts": [{
+    "matches": ["http://*/*", "https://*/*"],
+    "js": ["content.js"]
+  }],
+  "options_page": "options.html"
+}
