@@ -1,4 +1,4 @@
-import { getStatus, getQuestion, getQuestionStatus } from "./utils.js"
+import { fetchLC, getQuestion, setQuestion, getQuestionStatus, generateNewQuestion } from "./utils.js"
 
 const login = document.getElementById("login");
 const dashboard = document.getElementById('dashboard')
@@ -16,44 +16,53 @@ async function countdown() {
   const current = new Date()
 
   if (current > trigger) {
-    const status = await getStatus();
-    const questions = status.stat_status_pairs;
-  
-    await getQuestion(questions);
+    const lcData = await fetchLC();
+    const questions = lcData.stat_status_pairs;
+    
+    // TODO: 
+    const question = getQuestion(questions);
+    await setQuestion(question);
   }
 }
 
 async function handleLoad(event) {
   event.preventDefault()
 
-  const status = await getStatus()
+  const lcData = await fetchLC();
+  const questions = lcData.stat_status_pairs;
 
-  if (status.user_name === '') {
+  // if not logged in
+  if (lcData.user_name === '') {
     login.hidden = false
-  } else {
-    dashboard.hidden = false
-    const questions = status.stat_status_pairs
-    let result = await chrome.storage.sync.get(['title_slug'])
-    if (!('title_slug' in result)) {
-      await getQuestion(questions)
-      result = await chrome.storage.sync.get(['title_slug'])
+    return
+  } 
+
+  dashboard.hidden = false;
+
+  const getLocalQuestion = () => chrome.storage.sync.get(['title_slug']).then(result => {
+    if(!('title_slug' in result)) {
+      return generateNewQuestion(lcData,).title_slug;
     }
+    return result;
+  });
 
-    await countdown()
+  const [result, _, localQuestionStatus] = await Promise.all([
+    getLocalQuestion(),
+    countdown(),
+    getQuestionStatus()
+  ]);
 
-    const temp = await getQuestionStatus();
-
-    const question = questions.filter(question => question.stat.question__title_slug === result.title_slug)
-    
-    if (question[0].status === 'ac') {
-      await chrome.storage.sync.set({'question_status': question[0].status, 'last_updated': (new Date()).toJSON()})
-    }
-
-    questionLink.href = 'https://leetcode.com/problems/' + result.title_slug
-
-    if (question[0].status === 'ac' || temp === 'skipped') {
-      doQuestion.style.display = "none";
-      questionFinished.style.display = "flex";
-    }
+  const question = questions.filter(question => question.stat.question__title_slug === result.title_slug)[0]
+  
+  if (question.status === 'ac') {
+    await chrome.storage.sync.set({'question_status': question.status, 'last_updated': (new Date()).toJSON()})
   }
+
+  questionLink.href = 'https://leetcode.com/problems/' + result.title_slug
+
+  if (question.status === 'ac' || localQuestionStatus === 'skipped') {
+    doQuestion.style.display = "none";
+    questionFinished.style.display = "flex";
+  }
+  
 }

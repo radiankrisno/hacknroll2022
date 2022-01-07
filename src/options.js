@@ -45,8 +45,9 @@ async function handleLoad(event) {
     }
   }
 
-  const difficulty = await getDefaultStorage("difficulty", "random");
+  const difficulty = await getDefaultStorage("difficulty", -1);
 
+  // console.log([].filter.call(document.getElementsByName('difficultyLevel'), x => x.value === difficulty)[0]);
   [].filter.call(document.getElementsByName('difficultyLevel'), x => x.value === difficulty)[0].checked = true;
 }
 
@@ -69,7 +70,6 @@ async function handleFormSubmit(event) {
 
 async function handleSaveDifficulty(event) {
   event.preventDefault();
-
   const difficulty = [].filter.call(document.getElementsByName('difficultyLevel'), x => x.checked)[0].value;
 
   chrome.storage.sync.set({

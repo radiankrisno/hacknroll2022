@@ -1,4 +1,4 @@
-import { getStatus } from "./utils.js"
+import { fetchLC, generateNewQuestion, getDefaultStorage, getQuestion, setQuestion } from "./utils.js"
 
 const skip = document.getElementById('skip')
 const skipText = document.getElementById('skipText')
@@ -28,21 +28,11 @@ async function handleClickGenerate(event) {
   generateText.hidden = true
   generateLoader.hidden = false
 
-  const status = await getStatus();
-  const questions = status.stat_status_pairs;
+  const lcData = await fetchLC();
+  const question = await generateNewQuestion(lcData);
 
   generateText.hidden = false
   generateLoader.hidden = true
 
-  await getQuestion(questions);
-}
-
-async function getQuestion(questions) {
-  questions = questions.filter(question => question.status === null)
-
-  const numOfQuestions = questions.length
-  const questionNumber = Math.floor(Math.random() * numOfQuestions)
-  const question = questions[questionNumber]
-
-  await chrome.storage.sync.set({'title_slug': question.stat.question__title_slug, 'question_status': question.status, 'last_updated': (new Date()).toJSON()})
+  await setQuestion(question);
 }
