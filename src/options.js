@@ -17,6 +17,8 @@ async function handleLoad(event) {
   for (const blockedDomain of blockedDomains) {
     const node = document.createElement('li')
     const text = document.createElement('text')
+    text.style.fontSize = "large";
+
     const textnode = document.createTextNode(blockedDomain)
     text.appendChild(textnode)
     node.appendChild(text)
@@ -24,6 +26,7 @@ async function handleLoad(event) {
     const span = document.createElement('span')
     const  txt = document.createTextNode('\u00D7')
     span.className = 'close'
+    span.style.fontSize = 'x-large'
     span.appendChild(txt)
     node.appendChild(span)
 
