@@ -1,7 +1,17 @@
+import { getQuestionStatus, getBlockedDomains } from "./utils.js"
+
+const basicStyle = `display:flex;justify-content:center;align-items:center;padding:70px 0;`
 function resetPage() {
-  test();
-  document.documentElement.innerHTML = 'Domain is blocked';
+  const resultingPage = 
+  `
+  <div style=${basicStyle}>
+    <p style="font-size: xxx-large;">Domain is blocked!</p>
+  </div>
+  `;
+
+  document.documentElement.innerHTML = resultingPage;
   document.documentElement.scrollTop = 0;
+
 }
 
 function blockPartial(text){
@@ -18,26 +28,19 @@ function blockEntire(text){
   }
 }
 
-async function getQuestionStatus() {
-  const result = await chrome.storage.sync.get(['question_status'])
-
-  return result.question_status
-}
-
 export async function main() {
-  const result = await chrome.storage.sync.get(['blockedDomains'])
-  if (!('blockedDomains' in result)) {
-    await chrome.storage.sync.set({'blockedDomains': []})
-    return
-  }
+  const blockedDomains = await getBlockedDomains()
+  const questionStatus = await getQuestionStatus();
 
-  const questionStatus = await getQuestionStatus()
+  if (blockedDomains.length === 0) {
+    return;
+  }
 
   if (questionStatus === 'ac' || questionStatus === 'skipped') {
     return
   }
 
-  for (const blockedDomain of result.blockedDomains) {
+  for (const blockedDomain of blockedDomains) {
     blockEntire(blockedDomain)
   }
 }

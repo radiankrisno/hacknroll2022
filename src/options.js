@@ -1,5 +1,6 @@
+import { getBlockedDomains } from "./utils.js"
+
 const blockedDomainsPlaceholder = document.getElementById('blockedDomainsPlaceholder')
-const add = document.getElementById('add')
 const form = document.getElementById('control-row')
 const input = document.getElementById('input')
 
@@ -9,7 +10,7 @@ document.addEventListener('DOMContentLoaded', handleLoad)
 async function handleLoad(event) {
   event.preventDefault();
 
-  const blockedDomains = await getBlockedDomains()
+  const blockedDomains = await getBlockedDomains();
 
   blockedDomainsPlaceholder.innerHTML = ''
 
@@ -33,24 +34,13 @@ async function handleLoad(event) {
   for (let i = 0; i < close.length; i++) {
     close[i].onclick = async function() {
       const sibling = this.previousElementSibling
-      let blockedDomains = await getBlockedDomains()
+      let blockedDomains = await getBlockedDomains();
       blockedDomains = blockedDomains.filter(blockedDomain => blockedDomain !== sibling.textContent)
 
       await chrome.storage.sync.set({blockedDomains})
       await handleLoad(event)
     }
   }
-
-}
-
-async function getBlockedDomains() {
-  const result = await chrome.storage.sync.get(['blockedDomains'])
-  if (!('blockedDomains' in result)) {
-    await chrome.storage.sync.set({'blockedDomains': []})
-    return []
-  }
-
-  return result.blockedDomains
 }
 
 async function handleFormSubmit(event) {

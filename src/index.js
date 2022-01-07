@@ -1,5 +1,5 @@
-const go = document.getElementById("go");
-const message = document.getElementById("message");
+import { getStatus, getQuestion, getQuestionStatus } from "./utils.js"
+
 const login = document.getElementById("login");
 const dashboard = document.getElementById('dashboard')
 const questionLink = document.getElementById('questionLink')
@@ -23,7 +23,7 @@ async function handleLoad(event) {
       result = await chrome.storage.sync.get(['title_slug'])
     }
 
-    const temp = await chrome.storage.sync.get(['question_status'])
+    const temp = await getQuestionStatus();
 
     const question = questions.filter(question => question.stat.question__title_slug === result.title_slug)
     
@@ -40,23 +40,3 @@ async function handleLoad(event) {
   }
 }
 
-async function getStatus() {
-  const response = await fetch('https://leetcode.com/api/problems/algorithms', {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    }
-  })
-  
-  return response.json()
-}
-
-async function getQuestion(questions) {
-  questions = questions.filter(question => question.status === null)
-
-  const numOfQuestions = questions.length
-  const questionNumber = Math.floor(Math.random() * numOfQuestions)
-  const question = questions[questionNumber]
-
-  await chrome.storage.sync.set({'title_slug': question.stat.question__title_slug, 'question_status': question.status})
-}
