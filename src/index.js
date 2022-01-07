@@ -41,7 +41,7 @@ async function handleLoad(event) {
     if(!('title_slug' in result)) {
       return generateNewQuestion(lcData,).title_slug;
     }
-    return result;
+    return result.title_slug;
   });
 
   const [result, _, localQuestionStatus] = await Promise.all([
@@ -50,13 +50,13 @@ async function handleLoad(event) {
     getQuestionStatus()
   ]);
 
-  const question = questions.filter(question => question.stat.question__title_slug === result.title_slug)[0]
+  const question = questions.filter(question => question.stat.question__title_slug === result)[0]
   
   if (question.status === 'ac') {
     await chrome.storage.sync.set({'question_status': question.status, 'last_updated': (new Date()).toJSON()})
   }
 
-  questionLink.href = 'https://leetcode.com/problems/' + result.title_slug
+  questionLink.href = 'https://leetcode.com/problems/' + result
 
   if (question.status === 'ac' || localQuestionStatus === 'skipped') {
     doQuestion.style.display = "none";
