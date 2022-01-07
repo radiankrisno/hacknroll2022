@@ -41,7 +41,7 @@ async function handleLoad(event) {
     if(!('title_slug' in result)) {
       return generateNewQuestion(lcData);
     }
-    return new Promise({"stat": {"question__title_slug": result.title_slug}});
+    return Promise.resolve({"stat": {"question__title_slug": result.title_slug}});
   }).then(x => x.stat.question__title_slug);
 
   const [result, _, localQuestionStatus] = await Promise.all([
