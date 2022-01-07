@@ -8,8 +8,8 @@ export async function fetchLC() {
     
     return response.json()
   }
-  
-export function getQuestion(questions, filterRule = x => true) {
+
+function getQuestion(questions, filterRule = x => true) {
     questions = questions.filter(question => question.status === null).filter(filterRule);
   
     const questionNumber = Math.floor(Math.random() * questions.length);

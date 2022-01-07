@@ -1,4 +1,4 @@
-import { fetchLC, generateNewQuestion, getDefaultStorage, getQuestion, setQuestion } from "./utils.js"
+import { fetchLC, generateNewQuestion, setQuestion } from "./utils.js"
 
 const skip = document.getElementById('skip')
 const skipText = document.getElementById('skipText')

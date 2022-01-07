@@ -1,4 +1,4 @@
-import { fetchLC, getQuestion, setQuestion, getQuestionStatus, generateNewQuestion } from "./utils.js"
+import { fetchLC, setQuestion, getQuestionStatus, generateNewQuestion } from "./utils.js"
 
 const login = document.getElementById("login");
 const dashboard = document.getElementById('dashboard')
@@ -19,9 +19,7 @@ async function countdown() {
     const lcData = await fetchLC();
     const questions = lcData.stat_status_pairs;
     
-    // TODO: 
-    const question = getQuestion(questions);
-    await setQuestion(question);
+    await generateNewQuestion(questions).then(setQuestion);
   }
 }
 
