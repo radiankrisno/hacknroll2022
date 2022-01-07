@@ -11,7 +11,11 @@ export async function fetchLC() {
 
   
 export async function generateNewQuestion(lcData) {
-    const filterRule = await getDefaultStorage("difficulty", -1).then(difficulty => (question => difficulty == -1 ? true : question.difficulty.level == difficulty));
+    const filterRule = await (Promise.all([
+        getDefaultStorage("difficulty", -1).then(difficulty => (question => difficulty == -1 ? true : question.difficulty.level == difficulty)), 
+        getDefaultStorage("paidOnlySetting", 1).then(paidOnlySetting => (question => paidOnlySetting == 0 ? true : question.paid_only == false))
+    ]).then(fns => (x => fns.map(f => f(x)).reduce((a, b) => a&&b))));
+    
     const questions = lcData.stat_status_pairs.filter(question => question.status === null).filter(filterRule);
   
     const questionNumber = Math.floor(Math.random() * questions.length);

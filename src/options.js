@@ -4,7 +4,8 @@ const blockedDomainsPlaceholder = document.getElementById('blockedDomainsPlaceho
 const input = document.getElementById('input')
 
 document.getElementById('domain-block').addEventListener("submit", handleFormSubmit)
-document.getElementById('query-setting').addEventListener("submit", handleSaveDifficulty)
+document.getElementById('difficulty-setting').addEventListener("submit", handleSaveDifficulty)
+document.getElementById('paid-only-setting').addEventListener("submit", handleSavePaidOnly)
 document.addEventListener('DOMContentLoaded', handleLoad)
 
 async function handleLoad(event) {
@@ -46,9 +47,7 @@ async function handleLoad(event) {
   }
 
   const difficulty = await getDefaultStorage("difficulty", -1);
-
-  // console.log([].filter.call(document.getElementsByName('difficultyLevel'), x => x.value === difficulty)[0]);
-  [].filter.call(document.getElementsByName('difficultyLevel'), x => x.value === difficulty)[0].checked = true;
+  [].filter.call(document.getElementsByName('difficultyLevel'), x => x.value == difficulty)[0].checked = true;
 }
 
 async function handleFormSubmit(event) {
@@ -75,6 +74,15 @@ async function handleSaveDifficulty(event) {
   chrome.storage.sync.set({
     "difficulty":  difficulty
   }, () => console.log(difficulty));
+}
+
+async function handleSavePaidOnly(event) {
+  event.preventDefault();
+  const paidOnlySetting = [].filter.call(document.getElementsByName('paidOnlySetting'), x => x.checked)[0].value;
+
+  chrome.storage.sync.set({
+    "removePaid":  paidOnlySetting
+  }, () => console.log(paidOnlySetting));
 }
 
 function setMessage(str) {

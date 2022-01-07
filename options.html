@@ -26,7 +26,7 @@
     <div>
       <h2>Leetcode Settings</h2>
       <h3>What level of questions do you want to solve? </h3>
-      <form id="query-setting">
+      <form id="difficulty-setting">
         <ul style="list-style-type:none;">
           <li>
             <input type="radio" id="difficulty-level" name="difficultyLevel" value="-1" checked>
@@ -47,6 +47,23 @@
         </ul>
         <button id="save-difficulty" style="font-size: medium;">
           Save Difficulty
+        </button>
+      </form>
+
+      <h3>Would you like to see paid-only questions too? </h3>
+      <form id="paid-only-setting">
+        <ul style="list-style-type:none;">
+          <li>
+            <input type="radio" id="paid-only" name="paidOnlySetting" value="1" checked>
+            <label for="input" style="font-size: medium;">No! I did not pay Leetcode to access their paid version</label>
+          </li>
+          <li>
+            <input type="radio" id="paid-only" name="paidOnlySetting" value="0">
+            <label for="input" style="font-size: medium;">Yes! I've paid Leetcode and would like to see all questions!</label>
+          </li>
+        </ul>
+        <button id="save-paid-only" style="font-size: medium;">
+          Save Paid Only Setting
         </button>
       </form>
     </div>
