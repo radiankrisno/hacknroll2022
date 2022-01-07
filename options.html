@@ -4,16 +4,52 @@
     <script src="src/options.js" type="module"></script>
   </head>
 <body">
-  <div>
+  <div style="display: flex; flex-direction: row; justify-content: space-around;">
     <h1>Options</h1>
   </div>
-  <form id="control-row">
-    <label for="input" style="font-size: medium;">Domain to Block:</label>
-    <input type="text" id="input">
-    <br>
-    <button id="add" style="font-size: medium;">Add</button>
-    <span id="message" hidden></span>
-  </form>
-  <ul id="blockedDomainsPlaceholder"></ul>
+  <div style="display: flex; flex-direction: row; justify-content: space-around;">
+    <div>
+      <h2>Domain/s to Block</h2>
+      <form id="domain-block">
+        <label for="input" style="font-size: medium;">Enter the domain you want to block here:</label>
+        <input type="text" id="input" placeholder="https://www.youtube.com"/>
+        <br/>
+        <button id="add" style="font-size: medium;">
+          Add
+        </button>
+        <span id="message" hidden></span>
+      </form>
+      <ul id="blockedDomainsPlaceholder">
+      </ul>
+    </div>
+
+    <div>
+      <h2>Leetcode Settings</h2>
+      <h3>What level of questions do you want to solve? </h3>
+      <form id="query-setting">
+        <ul style="list-style-type:none;">
+          <li>
+            <input type="radio" id="difficulty-level" name="difficultyLevel" value="random" checked>
+            <label for="input" style="font-size: medium;">Give me a random question!</label>
+          </li>
+          <li>
+            <input type="radio" id="difficulty-level" name="difficultyLevel" value="easy">
+            <label for="input" style="font-size: medium;">Easy questions please :)</label>
+          </li>
+          <li>
+            <input type="radio" id="difficulty-level" name="difficultyLevel" value="medium">
+            <label for="input" style="font-size: medium;">Medium.. My interview is tomorrow...</label>
+          </li>
+          <li>
+            <input type="radio" id="difficulty-level" name="difficultyLevel" value="hard">
+            <label for="input" style="font-size: medium;">HARDCOREE! MANGA HERE I COME!!!</label>
+          </li>
+        </ul>
+        <button id="save-difficulty" style="font-size: medium;">
+          Save Difficulty
+        </button>
+      </form>
+    </div>
+  </div>
 </body>
 </html>

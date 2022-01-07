@@ -1,10 +1,10 @@
-import { getBlockedDomains } from "./utils.js"
+import { getBlockedDomains, getDefaultStorage } from "./utils.js"
 
 const blockedDomainsPlaceholder = document.getElementById('blockedDomainsPlaceholder')
-const form = document.getElementById('control-row')
 const input = document.getElementById('input')
 
-form.addEventListener("submit", handleFormSubmit)
+document.getElementById('domain-block').addEventListener("submit", handleFormSubmit)
+document.getElementById('query-setting').addEventListener("submit", handleSaveDifficulty)
 document.addEventListener('DOMContentLoaded', handleLoad)
 
 async function handleLoad(event) {
@@ -12,10 +12,10 @@ async function handleLoad(event) {
 
   const blockedDomains = await getBlockedDomains();
 
+  // Render list of blocked domains
   blockedDomainsPlaceholder.innerHTML = ''
-
   for (const blockedDomain of blockedDomains) {
-    const node = document.createElement('li')
+    const node = document.createElement('li');    
     const text = document.createElement('text')
     text.style.fontSize = "large";
 
@@ -44,6 +44,10 @@ async function handleLoad(event) {
       await handleLoad(event)
     }
   }
+
+  const difficulty = await getDefaultStorage("difficulty", "random");
+
+  [].filter.call(document.getElementsByName('difficultyLevel'), x => x.value === difficulty)[0].checked = true;
 }
 
 async function handleFormSubmit(event) {
@@ -61,6 +65,16 @@ async function handleFormSubmit(event) {
   blockedDomains.push(input.value)
   await chrome.storage.sync.set({blockedDomains})
   await handleLoad(event)
+}
+
+async function handleSaveDifficulty(event) {
+  event.preventDefault();
+
+  const difficulty = [].filter.call(document.getElementsByName('difficultyLevel'), x => x.checked)[0].value;
+
+  chrome.storage.sync.set({
+    "difficulty":  difficulty
+  }, () => console.log(difficulty));
 }
 
 function setMessage(str) {
