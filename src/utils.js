@@ -43,5 +43,31 @@ export async function getDefaultStorage(key, defaultValue) {
 }
 
 export async function getBlockedDomains() {  
-    return getDefaultStorage("blockedDomains", []);
+    return getDefaultStorage("blockedDomains", [
+      "youtube.com",
+      "facebook.com",
+      "amazon.com", 
+      "wikipedia.org", 
+      "yahoo.com", 
+      "reddit.com", 
+      "pornhub.com", 
+      "bing.com",
+      "ebay.com",
+      "walmart.com",
+      "twitter.com",
+      "instagram.com",
+      "espn.com",
+      "fandom.com",
+      "cnn.com",
+      "xvideos.com",
+      "foxnews.com",
+      "microsoftonline.com",
+      "xhamster.com",
+      "twitch.tv",
+      "craigslist.org",
+      "live.com",
+      "netflix.com",
+      "instructure.com",
+      "xnxx.com",
+    ]);
 }

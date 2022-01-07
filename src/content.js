@@ -5,7 +5,7 @@ function resetPage() {
   const resultingPage = 
   `
   <div style=${basicStyle}>
-    <p style="font-size: xxx-large;">Domain is blocked!</p>
+    <p style="font-size: xxx-large;">Domain is blocked! Do your LeetCode question first!</p>
   </div>
   `;
 
@@ -14,16 +14,9 @@ function resetPage() {
 
 }
 
-function blockPartial(text){
-  const current = window.location.href;
-  if(current === text){
-    resetPage();
-  }
-}
-
 function blockEntire(text){
   const current = window.location.href;
-  if(current.startsWith(text)){
+  if(current.includes(text)){
     resetPage();
   }
 }
