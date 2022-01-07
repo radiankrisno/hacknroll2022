@@ -8,7 +8,7 @@ generate.addEventListener('click', handleClickGenerate)
 async function handleClickSkip(event) {
   event.preventDefault();
 
-  await chrome.storage.sync.set({'question_status': 'skipped', 'last_updated': new Date()})
+  await chrome.storage.sync.set({'question_status': 'skipped', 'last_updated': (new Date()).toJSON()})
 }
 
 async function handleClickGenerate(event) {
@@ -38,5 +38,5 @@ async function getQuestion(questions) {
   const questionNumber = Math.floor(Math.random() * numOfQuestions)
   const question = questions[questionNumber]
 
-  await chrome.storage.sync.set({'title_slug': question.stat.question__title_slug, 'question_status': question.status, 'last_updated': new Date()})
+  await chrome.storage.sync.set({'title_slug': question.stat.question__title_slug, 'question_status': question.status, 'last_updated': (new Date()).toJSON()})
 }

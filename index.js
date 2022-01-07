@@ -7,6 +7,15 @@ const questionFinished = document.getElementById('questionFinished')
 
 document.addEventListener("DOMContentLoaded", handleLoad);
 
+async function countdown() {
+  console.log('LOL')
+  const result = await chrome.storage.sync.get(['last_updated'])
+  console.log(result.last_updated)
+  console.log(new Date(result.last_updated))
+  console.log('kekekek')
+  console.log('tes')
+}
+
 async function handleLoad(event) {
   event.preventDefault()
 
@@ -25,10 +34,12 @@ async function handleLoad(event) {
 
     const temp = await chrome.storage.sync.get(['question_status'])
 
+    await countdown()
+
     const question = questions.filter(question => question.stat.question__title_slug === result.title_slug)
     
     if (question[0].status === 'ac') {
-      await chrome.storage.sync.set({'question_status': question[0].status, 'last_updated': new Date()})
+      await chrome.storage.sync.set({'question_status': question[0].status, 'last_updated': (new Date()).toJSON()})
     }
 
     questionLink.href = 'https://leetcode.com/problems/' + result.title_slug
@@ -58,5 +69,5 @@ async function getQuestion(questions) {
   const questionNumber = Math.floor(Math.random() * numOfQuestions)
   const question = questions[questionNumber]
 
-  await chrome.storage.sync.set({'title_slug': question.stat.question__title_slug, 'question_status': question.status, 'last_updated': new Date()})
+  await chrome.storage.sync.set({'title_slug': question.stat.question__title_slug, 'question_status': question.status, 'last_updated': (new Date()).toJSON()})
 }
