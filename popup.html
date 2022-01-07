@@ -9,13 +9,22 @@
   <br>
   <text>Go to extension options to change the settings.</text>
   <br>
-  <button id='skip'class='button' style='width: 134.75px;'>
-    <text id='skipText'>Skip for today :(</text>
-    <div class="loader" id='skipLoader' hidden></div>
-  </button>
-  <button id='generate' class='button' style='width: 177.583px;'>
-    <text id='generateText'>Generate new question!</text>
-    <div class="loader" id='generateLoader' hidden></div>
-  </button>
+  <div style="display: flex; flex-direction: column;">
+    <div style="display: flex; flex-direction: row; justify-content: space-evenly;">
+      <button id='skip'class='button' >
+        <text id='skipText'>Skip for today :(</text>
+        <div class="loader" id='skipLoader' hidden></div>
+      </button>
+      <button id='generate' class='button'>
+        <text id='generateText'>Generate new question!</text>
+        <div class="loader" id='generateLoader' hidden></div>
+      </button>
+    </div>
+    <div style="display: flex; flex-direction: row; justify-content: center;">
+      <button id='option' class='button'>
+        <text id='optionText'>Option</text>
+      </button>
+    </div>
+  </div>
 </body>
 </html>
