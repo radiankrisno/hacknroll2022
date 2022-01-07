@@ -28,7 +28,7 @@ async function handleLoad(event) {
     const question = questions.filter(question => question.stat.question__title_slug === result.title_slug)
     
     if (question[0].status === 'ac') {
-      await chrome.storage.sync.set({'question_status': question[0].status})
+      await chrome.storage.sync.set({'question_status': question[0].status, 'last_updated': new Date()})
     }
 
     questionLink.href = 'https://leetcode.com/problems/' + result.title_slug
@@ -58,5 +58,5 @@ async function getQuestion(questions) {
   const questionNumber = Math.floor(Math.random() * numOfQuestions)
   const question = questions[questionNumber]
 
-  await chrome.storage.sync.set({'title_slug': question.stat.question__title_slug, 'question_status': question.status})
+  await chrome.storage.sync.set({'title_slug': question.stat.question__title_slug, 'question_status': question.status, 'last_updated': new Date()})
 }
