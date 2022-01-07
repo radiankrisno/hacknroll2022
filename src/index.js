@@ -50,7 +50,7 @@ async function handleLoad(event) {
 
     questionLink.href = 'https://leetcode.com/problems/' + result.title_slug
 
-    if (question[0].status === 'ac' || temp.question_status === 'skipped') {
+    if (question[0].status === 'ac' || temp === 'skipped') {
       questionLink.hidden = true
       questionFinished.hidden = false
     }
