@@ -5,8 +5,16 @@ const dashboard = document.getElementById('dashboard')
 const doQuestion = document.getElementById('doQuestion')
 const questionLink = document.getElementById('questionLink')
 const questionFinished = document.getElementById('questionFinished')
+const questionTitle = document.getElementById('questionTitle')
+const questionDifficulty = document.getElementById('questionDifficulty')
 
 document.addEventListener("DOMContentLoaded", handleLoad);
+
+const difficulties = {
+  '1': 'easy',
+  '2': 'medium',
+  '3': 'hard',
+}
 
 async function countdown() {
   const result = await chrome.storage.sync.get(['last_updated'])
@@ -57,6 +65,8 @@ async function handleLoad(event) {
   }
 
   questionLink.href = 'https://leetcode.com/problems/' + result
+  questionTitle.innerHTML = question.stat.frontend_question_id + '. ' + question.stat.question__title
+  questionDifficulty.innerHTML = 'Difficulty: ' + difficulties[question.difficulty.level]
 
   if (question.status === 'ac' || localQuestionStatus === 'skipped') {
     doQuestion.style.display = "none";
