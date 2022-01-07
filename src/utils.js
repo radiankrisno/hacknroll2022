@@ -26,7 +26,6 @@ export async function generateNewQuestion(lcData) {
 }
 
 export async function setQuestion(question) {
-    console.log(question);
     await chrome.storage.sync.set({'title_slug': question.stat.question__title_slug, 'question_status': question.status, 'last_updated': (new Date()).toJSON()});
 }
 
