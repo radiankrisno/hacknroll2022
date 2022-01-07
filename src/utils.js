@@ -26,12 +26,16 @@ export async function getQuestionStatus() {
   return result.question_status
 }
 
-export async function getBlockedDomains() {
-    const result = await chrome.storage.sync.get(['blockedDomains'])
-    if (!('blockedDomains' in result)) {
-      await chrome.storage.sync.set({'blockedDomains': []})
-      return []
+export async function getDefaultStorage(key, defaultValue) {
+    const result = await chrome.storage.sync.get([key]);
+    if (!(key in result)) {
+        await chrome.storage.sync.set({key: defaultValue});
+        return defaultValue
     }
-  
-    return result.blockedDomains
-  }
+
+    return result[key];
+}
+
+export async function getBlockedDomains() {  
+    return getDefaultStorage("blockedDomains", []);
+}
