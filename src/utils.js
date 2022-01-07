@@ -9,24 +9,17 @@ export async function fetchLC() {
     return response.json()
   }
 
-function getQuestion(questions, filterRule = x => true) {
-    questions = questions.filter(question => question.status === null).filter(filterRule);
+  
+export async function generateNewQuestion(lcData) {
+    const filterRule = await getDefaultStorage("difficulty", -1).then(difficulty => (question => difficulty == -1 ? true : question.difficulty.level == difficulty));
+    const questions = lcData.stat_status_pairs.filter(question => question.status === null).filter(filterRule);
   
     const questionNumber = Math.floor(Math.random() * questions.length);
     const question = questions[questionNumber];
 
-    return question;
-}
-
-export async function generateNewQuestion(lcData) {
-    const questions = lcData.stat_status_pairs;
-    const filterRule = await getDefaultStorage("difficulty", -1).then(difficulty => (question => difficulty == -1 ? true : question.difficulty.level == difficulty));
-
-    return getQuestion(questions, filterRule);
-}
-
-export async function setQuestion(question) {
     await chrome.storage.sync.set({'title_slug': question.stat.question__title_slug, 'question_status': question.status, 'last_updated': (new Date()).toJSON()});
+
+    return question;
 }
 
 export async function getQuestionStatus() {

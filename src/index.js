@@ -1,4 +1,4 @@
-import { fetchLC, setQuestion, getQuestionStatus, generateNewQuestion } from "./utils.js"
+import { fetchLC, getQuestionStatus, generateNewQuestion } from "./utils.js"
 
 const login = document.getElementById("login");
 const dashboard = document.getElementById('dashboard')
@@ -19,7 +19,7 @@ async function countdown() {
     const lcData = await fetchLC();
     const questions = lcData.stat_status_pairs;
     
-    await generateNewQuestion(questions).then(setQuestion);
+    await generateNewQuestion(questions);
   }
 }
 
@@ -50,7 +50,7 @@ async function handleLoad(event) {
     getQuestionStatus()
   ]);
 
-  const question = questions.filter(question => question.stat.question__title_slug === result)[0]
+  const question = questions.filter(question => question.stat.question__title_slug === result)[0];
   
   if (question.status === 'ac') {
     await chrome.storage.sync.set({'question_status': question.status, 'last_updated': (new Date()).toJSON()})

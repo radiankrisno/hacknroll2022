@@ -1,4 +1,4 @@
-import { fetchLC, generateNewQuestion, setQuestion } from "./utils.js"
+import { fetchLC, generateNewQuestion } from "./utils.js"
 
 const skip = document.getElementById('skip')
 const skipText = document.getElementById('skipText')
@@ -29,10 +29,8 @@ async function handleClickGenerate(event) {
   generateLoader.hidden = false
 
   const lcData = await fetchLC();
-  const question = await generateNewQuestion(lcData);
+  await generateNewQuestion(lcData);
 
   generateText.hidden = false
   generateLoader.hidden = true
-
-  await setQuestion(question);
 }
